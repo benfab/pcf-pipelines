@@ -1,7 +1,7 @@
 #!/bin/bash
 
-CCI_ENDPOINT=http://10.0.0.42:25555/
-CCI_PASSWORD=purple80Sheep
+CCI_ENDPOINT=http://<ip>:25555/
+CCI_PASSWORD=<pwd>
 
 # login to Concourse
 fly -t zero login -c ${CCI_ENDPOINT} -u admin -p ${CCI_PASSWORD}
