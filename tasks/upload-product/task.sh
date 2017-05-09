@@ -25,6 +25,8 @@ function main() {
   local product
   product="$(ls -1 "${cwd}"/pivnet-product/*.pivotal)"
 
+  echo $product
+  
   ./${CMD_PATH} --target "${OPSMAN_URI}" \
      --skip-ssl-validation \
      --username "${OPSMAN_USERNAME}" \
