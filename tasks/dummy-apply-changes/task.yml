@@ -28,4 +28,4 @@ params:
   OPSMAN_URI:
 
 run:
-  path: pcf-pipelines/tasks/apply-changes/task.sh
+  path: pcf-pipelines/tasks/dummy-apply-changes/task.sh
