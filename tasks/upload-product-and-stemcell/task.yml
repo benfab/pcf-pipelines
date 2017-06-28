@@ -16,7 +16,7 @@ params:
   IAAS:
 
 inputs:
-  - name: pivnet-product
+  - name: s3-ert-metadata
   - name: pcf-pipelines
 
 run:
