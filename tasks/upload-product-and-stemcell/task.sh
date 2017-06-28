@@ -6,7 +6,7 @@ if [[ -n "$NO_PROXY" ]]; then
   echo "$OM_IP $OPS_MGR_HOST" >> /etc/hosts
 fi
 
-STEMCELL_VERSION=`cat ./pivnet-product/metadata.json | jq --raw-output '.Dependencies[] | select(.Release.Product.Name | contains("Stemcells")) | .Release.Version'`
+STEMCELL_VERSION=`cat ./s3-ert-metadata/metadata.json | jq --raw-output '.Dependencies[] | select(.Release.Product.Name | contains("Stemcells")) | .Release.Version'`
 
 if [ -n "$STEMCELL_VERSION" ]; then
   diagnostic_report=$(
@@ -45,5 +45,5 @@ if [ -n "$STEMCELL_VERSION" ]; then
   fi
 fi
 
-FILE_PATH=`find ./pivnet-product -name *.pivotal`
+FILE_PATH=`find ./s3-ert-binary -name *.pivotal`
 om-linux -t https://$OPS_MGR_HOST -u $OPS_MGR_USR -p $OPS_MGR_PWD -k --request-timeout 3600 upload-product -p $FILE_PATH
