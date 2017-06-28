@@ -17,6 +17,7 @@ params:
 
 inputs:
   - name: s3-ert-metadata
+  - name: s3-ert-binary
   - name: pcf-pipelines
 
 run:
