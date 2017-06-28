@@ -20,8 +20,9 @@ image_resource:
   source: {repository: czero/cflinuxfs2}
 
 inputs:
+  - name: s3-ert-metadata
+  - name: s3-ert-binary
   - name: pcf-pipelines
-  - name: pivnet-product
 
 params:
   OPSMAN_USERNAME:

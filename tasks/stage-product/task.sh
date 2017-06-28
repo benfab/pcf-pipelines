@@ -22,7 +22,7 @@ function main() {
   cwd="${1}"
 
   local version
-  pushd "${cwd}/pivnet-product"
+  pushd "${cwd}/s3-ert-binary"
     version="$(unzip -p *.pivotal 'metadata/*.yml' | grep 'product_version:' | cut -d ':' -f 2 | tr -d ' ' | tr -d "'")"
   popd
 
