@@ -30,7 +30,6 @@ if [ -n "$STEMCELL_VERSION" ]; then
     echo "Downloading stemcell from S3 $STEMCELL_VERSION"
     stemcellname="bosh-stemcell-$STEMCELL_VERSION-vsphere-esxi-ubuntu-trusty-go_agent.tgz"
     echo "Stemcell name" $stemcellname
-    echo "S3 Bucket" $s3_bucket    
 
     dateValue=`date -R`
     contentType="application/x-compressed-tar"
