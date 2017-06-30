@@ -27,9 +27,20 @@ if [ -n "$STEMCELL_VERSION" ]; then
   )
 
   if [[ -z "$stemcell" ]]; then
-    echo "Downloading stemcell $STEMCELL_VERSION"
-    pivnet-cli login --api-token="$PIVNET_API_TOKEN"
-    pivnet-cli download-product-files -p stemcells -r $STEMCELL_VERSION -g "*${IAAS}*" --accept-eula
+    echo "Downloading stemcell from S3 $STEMCELL_VERSION"
+
+    signature=`echo -en ${stringToSign} | openssl sha1 -hmac ${s3Secret} -binary | base64`
+    dateValue=`date -R`
+
+    curl  -H "Host: ${s3_bucket}.s3.amazonaws.com" \
+     -H "Date: ${dateValue}" \
+     -H "Content-Type: ${contentType}" \
+     -H "Authorization: AWS ${s3_access_key_id}:${signature}" \
+     https://${s3_bucket}.s3.amazonaws.com/${stemcell} -o ./
+
+
+    #pivnet-cli login --api-token="$PIVNET_API_TOKEN"
+    #pivnet-cli download-product-files -p stemcells -r $STEMCELL_VERSION -g "*${IAAS}*" --accept-eula
 
     SC_FILE_PATH=`find ./ -name *.tgz`
 
@@ -47,3 +58,6 @@ fi
 
 FILE_PATH=`find ./s3-ert-binary -name *.pivotal`
 om-linux -t https://$OPS_MGR_HOST -u $OPS_MGR_USR -p $OPS_MGR_PWD -k --request-timeout 3600 upload-product -p $FILE_PATH
+
+echo "Removing downloaded ERT Binary"
+rm $FILE_PATH
