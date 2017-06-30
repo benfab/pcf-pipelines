@@ -28,7 +28,7 @@ if [ -n "$STEMCELL_VERSION" ]; then
 
   if [[ -z "$stemcell" ]]; then
     echo "Downloading stemcell from S3 $STEMCELL_VERSION"
-    stemcellname="bosh-stemcell-3312.26-vsphere-esxi-ubuntu-trusty-go_agent.tgz"
+    stemcellname="bosh-stemcell-$STEMCELL_VERSION-vsphere-esxi-ubuntu-trusty-go_agent.tgz"
     echo "Stemcell name" $stemcellname
     echo "S3 Bucket" $s3_bucket    
 
@@ -49,6 +49,8 @@ if [ -n "$STEMCELL_VERSION" ]; then
     #pivnet-cli download-product-files -p stemcells -r $STEMCELL_VERSION -g "*${IAAS}*" --accept-eula
 
     SC_FILE_PATH=`find ./ -name *.tgz`
+    echo "Stemcell found $SC_FILE_PATH" 
+    ls -lart $SC_FILE_PATH
 
     if [ ! -f "$SC_FILE_PATH" ]; then
       echo "Stemcell file not found!"
