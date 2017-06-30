@@ -28,9 +28,10 @@ if [ -n "$STEMCELL_VERSION" ]; then
 
   if [[ -z "$stemcell" ]]; then
     echo "Downloading stemcell from S3 $STEMCELL_VERSION"
-    stemcellname=bosh-stemcell-$STEMCELL_VERSION-vsphere-esxi-ubuntu-trusty-go_agent.tgz
-    echo "Stemcell name" $stemcell
-    
+    stemcellname="bosh-stemcell-3312.26-vsphere-esxi-ubuntu-trusty-go_agent.tgz"
+    echo "Stemcell name" $stemcellname
+    echo "S3 Bucket" $s3_bucket    
+
     dateValue=`date -R`
     contentType="application/x-compressed-tar"
     resource="/${s3_bucket}/stemcells/${stemcell}"
@@ -41,7 +42,7 @@ if [ -n "$STEMCELL_VERSION" ]; then
      -H "Date: ${dateValue}" \
      -H "Content-Type: ${contentType}" \
      -H "Authorization: AWS ${s3_access_key_id}:${signature}" \
-     https://${s3_bucket}.s3.amazonaws.com/${stemcell} -o ./
+     https://${s3_bucket}.s3.amazonaws.com/${stemcellname} -o ./
 
 
     #pivnet-cli login --api-token="$PIVNET_API_TOKEN"
