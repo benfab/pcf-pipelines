@@ -28,6 +28,7 @@ if [ -n "$STEMCELL_VERSION" ]; then
 
   if [[ -z "$stemcell" ]]; then
     echo "Downloading stemcell from S3 $STEMCELL_VERSION"
+    stemcellname=bosh-stemcell-$STEMCELL_VERSION-vsphere-esxi-ubuntu-trusty-go_agent.tgz
     echo "Stemcell name" $stemcell
     
     dateValue=`date -R`

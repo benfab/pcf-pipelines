@@ -7,7 +7,7 @@ image_resource:
   source: {repository: czero/cflinuxfs2}
 
 params:
-  s3-bucket:
+  s3_bucket:
   s3_access_key_id:
   s3_secret_access_key:
   OPS_MGR_HOST:
