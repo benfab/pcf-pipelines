@@ -28,9 +28,13 @@ if [ -n "$STEMCELL_VERSION" ]; then
 
   if [[ -z "$stemcell" ]]; then
     echo "Downloading stemcell from S3 $STEMCELL_VERSION"
-
-    signature=`echo -en ${stringToSign} | openssl sha1 -hmac ${s3Secret} -binary | base64`
+    echo "Stemcell name" $stemcell
+    
     dateValue=`date -R`
+    contentType="application/x-compressed-tar"
+    resource="/${s3_bucket}/stemcells/${stemcell}"
+    stringToSign="GET\n\n${contentType}\n${dateValue}\n${resource}"
+    signature=`echo -en ${stringToSign} | openssl sha1 -hmac ${s3_secret_access_key} -binary | base64`
 
     curl  -H "Host: ${s3_bucket}.s3.amazonaws.com" \
      -H "Date: ${dateValue}" \
