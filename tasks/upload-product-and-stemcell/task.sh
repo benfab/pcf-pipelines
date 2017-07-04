@@ -30,22 +30,20 @@ if [ -n "$STEMCELL_VERSION" ]; then
     echo "Downloading stemcell from S3 $STEMCELL_VERSION"
     stemcellname="bosh-stemcell-$STEMCELL_VERSION-vsphere-esxi-ubuntu-trusty-go_agent.tgz"
     echo "Stemcell name" $stemcellname
+    curl https://${s3_bucket}.s3.amazonaws.com/stemcells/${stemcellname} -o $stemcellname
+    
+    #dateValue=`date -R`
+    #contentType="application/x-compressed-tar"
+    #resource="/${s3_bucket}/stemcells/${stemcell}"
+    #stringToSign="GET\n\n${contentType}\n${dateValue}\n${resource}"
+    #signature=`echo -en ${stringToSign} | openssl sha1 -hmac ${s3_secret_access_key} -binary | base64`
 
-    dateValue=`date -R`
-    contentType="application/x-compressed-tar"
-    resource="/${s3_bucket}/stemcells/${stemcell}"
-    stringToSign="GET\n\n${contentType}\n${dateValue}\n${resource}"
-    signature=`echo -en ${stringToSign} | openssl sha1 -hmac ${s3_secret_access_key} -binary | base64`
+    #curl  -H "Host: ${s3_bucket}.s3.amazonaws.com" \
+    # -H "Date: ${dateValue}" \
+    # -H "Content-Type: ${contentType}" \
+    # -H "Authorization: AWS ${s3_access_key_id}:${signature}" \
+    # https://${s3_bucket}.s3.amazonaws.com/${stemcellname} -o $stemcellname
 
-    curl  -H "Host: ${s3_bucket}.s3.amazonaws.com" \
-     -H "Date: ${dateValue}" \
-     -H "Content-Type: ${contentType}" \
-     -H "Authorization: AWS ${s3_access_key_id}:${signature}" \
-     https://${s3_bucket}.s3.amazonaws.com/${stemcellname} -o $stemcellname
-
-
-    #pivnet-cli login --api-token="$PIVNET_API_TOKEN"
-    #pivnet-cli download-product-files -p stemcells -r $STEMCELL_VERSION -g "*${IAAS}*" --accept-eula
 
     SC_FILE_PATH=`find ./ -name *.tgz`
     echo "Stemcell found $SC_FILE_PATH" 
@@ -66,5 +64,3 @@ fi
 FILE_PATH=`find ./s3-ert-binary -name *.pivotal`
 om-linux -t https://$OPS_MGR_HOST -u $OPS_MGR_USR -p $OPS_MGR_PWD -k --request-timeout 3600 upload-product -p $FILE_PATH
 
-echo "Removing downloaded ERT Binary"
-rm $FILE_PATH
